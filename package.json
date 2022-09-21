@@ -23,10 +23,13 @@
 	],
 	"author": "Tentone",
 	"license": "MIT",
-	"dependencies": {},
+	"dependencies": {
+		"node": "^18.9.0",
+		"potree": "^0.1.0"
+	},
 	"devDependencies": {
-		"http-server": "0.11.1",
 		"google-closure-compiler": "^20190301.0.0",
+		"http-server": "0.11.1",
 		"jsdoc": "^3.5.0",
 		"rollup": "^1.0.0",
 		"rollup-plugin-strip": "^1.2.1"

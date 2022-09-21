@@ -21,6 +21,7 @@
 				canvas.style.left = "0px";
 				canvas.style.width = "100%";
 				canvas.style.height = "100%";
+				canvas.style.fill= "0xffffff";
 				document.body.appendChild(canvas);
 
 				var renderer = new THREE.WebGLRenderer(
@@ -36,8 +37,9 @@
 					powerPreference: "high-performance"
 				});
 
-				var geometry = new THREE.BoxBufferGeometry(25, 1, 25);
-				var material = new THREE.MeshBasicMaterial({color: 0x44AA44});
+				var geometry = new THREE.BoxBufferGeometry(350, 1, 350);
+				// var material = new THREE.MeshBasicMaterial({color: 0x44AA44});
+				var material = new THREE.MeshBasicMaterial({color: 0x000000});
 				var cube = new THREE.Mesh(geometry, material);
 				cube.position.y = -2;
 				scene.add(cube);
@@ -75,10 +77,12 @@
 				Potree.Global.workerPath = "./source";
 
 				loadPointCloud("data/lion_takanawa_ept_laz/ept.json", new THREE.Vector3(-4, -4, 3.0));
-				loadPointCloud("data/lion_takanawa_ept_bin/ept.json", new THREE.Vector3(-11, -4, 3.0));
-				loadPointCloud("data/lion_takanawa/cloud.js", new THREE.Vector3(-2, -3, 0.0));
-				loadPointCloud("data/lion_takanawa_las/cloud.js", new THREE.Vector3(3, -3, 0.0));
-				loadPointCloud("data/lion_takanawa_laz/cloud.js", new THREE.Vector3(8, -3, 0.0));
+				//loadPointCloud("data/lion_takanawa_ept_bin/ept.json", new THREE.Vector3(-11, -4, 3.0));
+				//loadPointCloud("data/lion_takanawa/cloud.js", new THREE.Vector3(-2, -3, 0.0));
+				//loadPointCloud("data/lion_takanawa_las/cloud.js", new THREE.Vector3(3, -3, 0.0));
+				//loadPointCloud("data/lion_takanawa_laz/cloud.js", new THREE.Vector3(8, -3, 0.0));
+				//loadPointCloud("https://potree-upload.pages.dev/cloud.js", new THREE.Vector3(8, -3, 0.0));
+				loadPointCloud("https://potree-laz.pages.dev/cloud.js", new THREE.Vector3(-40, -5, -3.0));
 				//loadPointCloud("http://arena4d.uksouth.cloudapp.azure.com:8080/4e5059c4-f701-4a8f-8830-59e78a2c0816/BLK360 Sample.vpc");
 				//"http://5.9.65.151/mschuetz/potree/resources/pointclouds/faro/skatepark/cloud.js"
 				//"http://5.9.65.151/mschuetz/potree/resources/pointclouds/weiss/subseamanifold2/cloud.js"
@@ -89,6 +93,7 @@
 					Potree.loadPointCloud(url, "pointcloud", function(e)
 					{
 						var points = new Potree.Group();
+						points.setPointBudget(100);
 						points.material.opacity = 1.0;
 						points.material.wireframe = true;
 						scene.add(points);
@@ -101,12 +106,16 @@
 						}
 
 						var material = pointcloud.material;
-						material.size = 2;
-						material.pointColorType = Potree.PointColorType.RGB; //RGB | DEPTH | HEIGHT | POINT_INDEX | LOD | CLASSIFICATION
-						material.pointSizeType = Potree.PointSizeType.ADAPTIVE; //ADAPTIVE | FIXED
+						material.size = 10;
+						//material.pointColorType = Potree.PointColorType.RGB; //RGB | DEPTH | HEIGHT | POINT_INDEX | LOD | CLASSIFICATION
+						material.pointSizeType = Potree.PointSizeType.FIXED; //ADAPTIVE | FIXED
 						material.shape = Potree.PointShape.CIRCLE; //CIRCLE | SQUARE
+						material.pointColorType =  Potree.PointColorType.COLOR;
+						material.uniforms.minSize.value  = 1;
+						material.uniforms.maxSize.value = 1;
 
 						points.add(pointcloud);
+						console.log(points);
 					});
 				}
 
